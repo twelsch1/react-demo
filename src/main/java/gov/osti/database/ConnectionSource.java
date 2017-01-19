@@ -1,4 +1,4 @@
-package osti.gov.database;
+package gov.osti.database;
 
 import java.beans.PropertyVetoException;
 import java.io.IOException;

@@ -12,3 +12,16 @@ function doAjax(methodType,url,successCallback,errorCallback,data) {
 		});
 		
 }
+
+function appendQueryString(url) {
+	
+	var ampOrQuestion = "?";
+	if (url.indexOf('?') > 0)
+		ampOrQuestion = "&";
+	
+	var queryString = window.location.search.slice(1);
+	if (queryString)
+		return url + ampOrQuestion + window.location.search.slice(1);
+	else
+		return url;
+}

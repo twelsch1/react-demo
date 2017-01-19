@@ -1,4 +1,4 @@
-package osti.gov.database;
+package gov.osti.database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

@@ -1,4 +1,4 @@
-package osti.gov.services;
+package gov.osti.services;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 
-import osti.gov.handlers.ReactHandler;
+import gov.osti.handlers.ReactHandler;
 
 
 public class ServiceRouter extends HttpServlet {
@@ -28,10 +28,13 @@ public class ServiceRouter extends HttpServlet {
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
 
-		String service = StringUtils.substringAfterLast(request.getRequestURI(), "/");
+		//String service = StringUtils.substringAfterLast(request.getRequestURI(), "/");
 		PrintWriter writer = response.getWriter();
+		
+		response.setContentType("application/javascript;charset=UTF-8");
+		writer.write(ReactHandler.handleRequest(request));
 
-
+/*
 		switch(service) {
 		case "react":
 			response.setContentType("application/javascript;charset=UTF-8");
@@ -39,7 +42,7 @@ public class ServiceRouter extends HttpServlet {
 				
 		default:
 			return;
-		}
+		}*/
 
 
 	}
