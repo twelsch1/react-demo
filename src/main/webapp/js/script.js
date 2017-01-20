@@ -8,36 +8,138 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Field = function (_React$Component) {
-  _inherits(Field, _React$Component);
+var AgentsModal = function (_React$Component) {
+  _inherits(AgentsModal, _React$Component);
+
+  function AgentsModal(props) {
+    _classCallCheck(this, AgentsModal);
+
+    var _this = _possibleConstructorReturn(this, (AgentsModal.__proto__ || Object.getPrototypeOf(AgentsModal)).call(this, props));
+
+    _this.state = { showModal: false };
+    _this.open = _this.open.bind(_this);
+    _this.close = _this.close.bind(_this);
+    return _this;
+  }
+
+  _createClass(AgentsModal, [{
+    key: "close",
+    value: function close() {
+      this.setState({ showModal: false });
+    }
+  }, {
+    key: "open",
+    value: function open() {
+      this.setState({ showModal: true });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return React.createElement(
+        "div",
+        null,
+        React.createElement(
+          ReactBootstrap.Button,
+          {
+            bsStyle: "primary",
+            bsSize: "large",
+            onClick: this.open
+          },
+          "Add Developer"
+        ),
+        React.createElement(
+          ReactBootstrap.Modal,
+          { show: this.state.showModal, onHide: this.close },
+          React.createElement(
+            ReactBootstrap.Modal.Header,
+            { closeButton: true },
+            React.createElement(
+              ReactBootstrap.Modal.Title,
+              null,
+              "Manage Developer"
+            )
+          ),
+          React.createElement(
+            ReactBootstrap.Modal.Body,
+            null,
+            "Hello World!"
+          ),
+          React.createElement(
+            ReactBootstrap.Modal.Footer,
+            null,
+            React.createElement(
+              ReactBootstrap.Button,
+              { onClick: this.close },
+              "Close"
+            )
+          )
+        )
+      );
+    }
+  }]);
+
+  return AgentsModal;
+}(React.Component);
+
+var AgentsTable = function (_React$Component2) {
+  _inherits(AgentsTable, _React$Component2);
+
+  function AgentsTable(props) {
+    _classCallCheck(this, AgentsTable);
+
+    return _possibleConstructorReturn(this, (AgentsTable.__proto__ || Object.getPrototypeOf(AgentsTable)).call(this, props));
+  }
+
+  _createClass(AgentsTable, [{
+    key: "componentWillReceiveProps",
+    value: function componentWillReceiveProps(nextProps) {
+      this.props.value = nextProps.value;
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return React.createElement(
+        "div",
+        { className: "form-group form-group-sm" },
+        React.createElement(
+          "div",
+          { className: "col-sm-offset-2 col-sm-8" },
+          React.createElement(
+            "h2",
+            null,
+            "Developers"
+          ),
+          React.createElement(Griddle, { results: this.props.value })
+        )
+      );
+    }
+  }]);
+
+  return AgentsTable;
+}(React.Component);
+
+var Field = function (_React$Component3) {
+  _inherits(Field, _React$Component3);
 
   function Field(props) {
     _classCallCheck(this, Field);
 
-    var _this = _possibleConstructorReturn(this, (Field.__proto__ || Object.getPrototypeOf(Field)).call(this, props));
+    var _this3 = _possibleConstructorReturn(this, (Field.__proto__ || Object.getPrototypeOf(Field)).call(this, props));
 
-    _this.state = {
-      value: ''
-    };
+    _this3.handleChange = _this3.handleChange.bind(_this3);
 
-    _this.handleChange = _this.handleChange.bind(_this);
-
-    return _this;
+    return _this3;
   }
 
   _createClass(Field, [{
-    key: "componentWillReceiveProps",
-    value: function componentWillReceiveProps(nextProps) {
-      this.setState({
-        value: nextProps.value
-      });
-    }
-  }, {
     key: "handleChange",
     value: function handleChange(event) {
-      this.setState({
-        value: event.target.value
-      });
+      this.props.onChange(this.props.field, event.target.value);
+    }
+  }, {
+    key: "componentWillReceiveProps",
+    value: function componentWillReceiveProps(nextProps) {
+      this.props.value = nextProps.value;
     }
   }, {
     key: "render",
@@ -53,7 +155,7 @@ var Field = function (_React$Component) {
         React.createElement(
           "div",
           { className: "col-xs-2" },
-          React.createElement("input", { name: this.props.field, id: this.props.field, className: "form-control", type: this.props.type, value: this.state.value, onChange: this.handleChange })
+          React.createElement("input", { name: this.props.field, id: this.props.field, className: "form-control", type: this.props.type, value: this.props.value, onChange: this.handleChange })
         )
       );
     }
@@ -62,19 +164,20 @@ var Field = function (_React$Component) {
   return Field;
 }(React.Component);
 
-var NameForm = function (_React$Component2) {
-  _inherits(NameForm, _React$Component2);
+var NameForm = function (_React$Component4) {
+  _inherits(NameForm, _React$Component4);
 
   function NameForm(props) {
     _classCallCheck(this, NameForm);
 
-    var _this2 = _possibleConstructorReturn(this, (NameForm.__proto__ || Object.getPrototypeOf(NameForm)).call(this, props));
+    var _this4 = _possibleConstructorReturn(this, (NameForm.__proto__ || Object.getPrototypeOf(NameForm)).call(this, props));
 
-    _this2.state = { metadata: {} };
-    _this2.handleSubmit = _this2.handleSubmit.bind(_this2);
-    _this2.parseLoadResponse = _this2.parseLoadResponse.bind(_this2);
+    _this4.state = { metadata: {} };
+    _this4.handleSubmit = _this4.handleSubmit.bind(_this4);
+    _this4.parseLoadResponse = _this4.parseLoadResponse.bind(_this4);
+    _this4.onStateChange = _this4.onStateChange.bind(_this4);
 
-    return _this2;
+    return _this4;
   }
 
   _createClass(NameForm, [{
@@ -90,17 +193,22 @@ var NameForm = function (_React$Component2) {
       });
     }
   }, {
+    key: "onStateChange",
+    value: function onStateChange(id, value) {
+      var newState = this.state;
+      newState.metadata[id] = value;
+      this.setState(newState);
+    }
+  }, {
     key: "handleSubmit",
     value: function handleSubmit(event) {
-      alert('A name was submitted: ' + $('#name').val());
+      console.log(this.state.metadata);
       event.preventDefault();
     }
   }, {
     key: "render",
     value: function render() {
-
-      var keys = Object.keys(this.state.metadata);
-      console.log(keys);
+      console.log(this.state.developers);
 
       return React.createElement(
         "div",
@@ -108,14 +216,20 @@ var NameForm = function (_React$Component2) {
         React.createElement(
           "form",
           { id: "react_form", className: "form-horizontal", onSubmit: this.handleSubmit },
-          React.createElement(Field, { field: "software_title", label: "Software Title", type: "textarea", value: "something" }),
+          React.createElement(Field, { field: "software_title", label: "Software Title", type: "textarea", value: this.state.metadata.software_title, onChange: this.onStateChange }),
+          React.createElement(AgentsTable, { value: this.state.metadata.developers }),
+          React.createElement(AgentsModal, null),
           React.createElement(
             "div",
-            { className: "col-xs-offset-2" },
+            { className: "form-group form-group-sm" },
             React.createElement(
-              "button",
-              { className: "btn btn-primary", type: "submit" },
-              "Submit"
+              "div",
+              { className: "col-xs-offset-2" },
+              React.createElement(
+                "button",
+                { className: "btn btn-primary", type: "submit" },
+                "Submit"
+              )
             )
           )
         )
