@@ -2,17 +2,25 @@
 class AgentsModal extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {showModal: false, first_name:'',
-      middle_name: '',
-    last_name: '',
-  email:''};
+    var developerObj = {first_name:'',
+    middle_name: '',
+  last_name: '',
+email:''}
+    this.state = {showModal: false, developer : developerObj};
     this.open = this.open.bind(this);
     this.close = this.close.bind(this);
+    this.onModalChange = this.onModalChange.bind(this);
+    this.handleSave = this.handleSave.bind(this);
   }
 
   close() {
     var newState = this.state;
+    var developerObj = {first_name:'',
+    middle_name: '',
+  last_name: '',
+email:''}
     newState.showModal=false;
+    newState.developer = developerObj;
     this.setState(newState);
   }
 
@@ -21,6 +29,18 @@ class AgentsModal extends React.Component {
     newState.showModal=true;
     this.setState(newState);
 
+  }
+  
+  onModalChange(id,value) {
+	  var newState = this.state;
+	  newState.developer[id] = value;
+	  this.setState(newState);
+
+	}
+  
+  handleSave(event) {
+	  this.props.onClick(this.state.developer);
+	  this.close();
   }
 
   render() {
@@ -43,15 +63,16 @@ class AgentsModal extends React.Component {
           <ReactBootstrap.Modal.Body>
            <div className="container-fluid">
              <div className="form-horizontal">
-           <Field field="first_name" label="First Name" type="textarea" value={this.state.first_name} onChange={this.onStateChange}/>
-           <Field field="middle_name" label="Middle Name" type="textarea" value={this.state.middle_name} onChange={this.onStateChange}/>
-           <Field field="first_title" label="Last Name" type="textarea" value={this.state.last_name} onChange={this.onStateChange}/>
-           <Field field="email" label="Email" type="textarea" value={this.state.email} onChange={this.onStateChange}/>
+           <Field field="first_name" label="First Name" type="textarea" value={this.state.developer.first_name} onChange={this.onModalChange}/>
+           <Field field="middle_name" label="Middle Name" type="textarea" value={this.state.developer.middle_name} onChange={this.onModalChange}/>
+           <Field field="last_name" label="Last Name" type="textarea" value={this.state.developer.last_name} onChange={this.onModalChange}/>
+           <Field field="email" label="Email" type="textarea" value={this.state.developer.email} onChange={this.onModalChange}/>
             </div>
          </div>
           </ReactBootstrap.Modal.Body>
           <ReactBootstrap.Modal.Footer>
             <ReactBootstrap.Button onClick={this.close}>Close</ReactBootstrap.Button>
+            <ReactBootstrap.Button onClick={this.handleSave}>Save and close</ReactBootstrap.Button>
           </ReactBootstrap.Modal.Footer>
         </ReactBootstrap.Modal>
       </div>
@@ -119,6 +140,7 @@ class NameForm extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.parseLoadResponse = this.parseLoadResponse.bind(this);
     this.onStateChange = this.onStateChange.bind(this);
+    this.onModalSubmit = this.onModalSubmit.bind(this);
 
 
   }
@@ -141,6 +163,12 @@ onStateChange(id,value) {
 
 }
 
+onModalSubmit(developer) {
+	  var newState = this.state;
+	  newState.metadata.developers.push(developer);
+	  this.setState(newState);
+}
+
   handleSubmit(event) {
     console.log(this.state.metadata);
     event.preventDefault();
@@ -155,7 +183,9 @@ onStateChange(id,value) {
       <form id="react_form" className="form-horizontal" onSubmit={this.handleSubmit}>
       <Field field="software_title" label="Software Title" type="textarea" value={this.state.metadata.software_title} onChange={this.onStateChange}/>
       <AgentsTable value={this.state.metadata.developers}/>
-      <AgentsModal/>
+
+      <AgentsModal onClick={this.onModalSubmit}/>
+
       <div className="form-group form-group-sm">
         <div className="col-xs-offset-2">
           <button className="btn btn-primary" type="submit">

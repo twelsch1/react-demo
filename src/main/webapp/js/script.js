@@ -16,12 +16,15 @@ var AgentsModal = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (AgentsModal.__proto__ || Object.getPrototypeOf(AgentsModal)).call(this, props));
 
-    _this.state = { showModal: false, first_name: '',
+    var developerObj = { first_name: '',
       middle_name: '',
       last_name: '',
       email: '' };
+    _this.state = { showModal: false, developer: developerObj };
     _this.open = _this.open.bind(_this);
     _this.close = _this.close.bind(_this);
+    _this.onModalChange = _this.onModalChange.bind(_this);
+    _this.handleSave = _this.handleSave.bind(_this);
     return _this;
   }
 
@@ -29,7 +32,12 @@ var AgentsModal = function (_React$Component) {
     key: 'close',
     value: function close() {
       var newState = this.state;
+      var developerObj = { first_name: '',
+        middle_name: '',
+        last_name: '',
+        email: '' };
       newState.showModal = false;
+      newState.developer = developerObj;
       this.setState(newState);
     }
   }, {
@@ -38,6 +46,19 @@ var AgentsModal = function (_React$Component) {
       var newState = this.state;
       newState.showModal = true;
       this.setState(newState);
+    }
+  }, {
+    key: 'onModalChange',
+    value: function onModalChange(id, value) {
+      var newState = this.state;
+      newState.developer[id] = value;
+      this.setState(newState);
+    }
+  }, {
+    key: 'handleSave',
+    value: function handleSave(event) {
+      this.props.onClick(this.state.developer);
+      this.close();
     }
   }, {
     key: 'render',
@@ -76,10 +97,10 @@ var AgentsModal = function (_React$Component) {
               React.createElement(
                 'div',
                 { className: 'form-horizontal' },
-                React.createElement(Field, { field: 'first_name', label: 'First Name', type: 'textarea', value: this.state.first_name, onChange: this.onStateChange }),
-                React.createElement(Field, { field: 'middle_name', label: 'Middle Name', type: 'textarea', value: this.state.middle_name, onChange: this.onStateChange }),
-                React.createElement(Field, { field: 'first_title', label: 'Last Name', type: 'textarea', value: this.state.last_name, onChange: this.onStateChange }),
-                React.createElement(Field, { field: 'email', label: 'Email', type: 'textarea', value: this.state.email, onChange: this.onStateChange })
+                React.createElement(Field, { field: 'first_name', label: 'First Name', type: 'textarea', value: this.state.developer.first_name, onChange: this.onModalChange }),
+                React.createElement(Field, { field: 'middle_name', label: 'Middle Name', type: 'textarea', value: this.state.developer.middle_name, onChange: this.onModalChange }),
+                React.createElement(Field, { field: 'last_name', label: 'Last Name', type: 'textarea', value: this.state.developer.last_name, onChange: this.onModalChange }),
+                React.createElement(Field, { field: 'email', label: 'Email', type: 'textarea', value: this.state.developer.email, onChange: this.onModalChange })
               )
             )
           ),
@@ -90,6 +111,11 @@ var AgentsModal = function (_React$Component) {
               ReactBootstrap.Button,
               { onClick: this.close },
               'Close'
+            ),
+            React.createElement(
+              ReactBootstrap.Button,
+              { onClick: this.handleSave },
+              'Save and close'
             )
           )
         )
@@ -195,6 +221,7 @@ var NameForm = function (_React$Component4) {
     _this4.handleSubmit = _this4.handleSubmit.bind(_this4);
     _this4.parseLoadResponse = _this4.parseLoadResponse.bind(_this4);
     _this4.onStateChange = _this4.onStateChange.bind(_this4);
+    _this4.onModalSubmit = _this4.onModalSubmit.bind(_this4);
 
     return _this4;
   }
@@ -219,6 +246,13 @@ var NameForm = function (_React$Component4) {
       this.setState(newState);
     }
   }, {
+    key: 'onModalSubmit',
+    value: function onModalSubmit(developer) {
+      var newState = this.state;
+      newState.metadata.developers.push(developer);
+      this.setState(newState);
+    }
+  }, {
     key: 'handleSubmit',
     value: function handleSubmit(event) {
       console.log(this.state.metadata);
@@ -237,7 +271,7 @@ var NameForm = function (_React$Component4) {
           { id: 'react_form', className: 'form-horizontal', onSubmit: this.handleSubmit },
           React.createElement(Field, { field: 'software_title', label: 'Software Title', type: 'textarea', value: this.state.metadata.software_title, onChange: this.onStateChange }),
           React.createElement(AgentsTable, { value: this.state.metadata.developers }),
-          React.createElement(AgentsModal, null),
+          React.createElement(AgentsModal, { onClick: this.onModalSubmit }),
           React.createElement(
             'div',
             { className: 'form-group form-group-sm' },
