@@ -12,6 +12,7 @@ import com.google.gson.JsonObject;
 
 import gov.osti.entity.DOECodeMetadata;
 import gov.osti.entity.Developer;
+import gov.osti.util.ServletUtil;
 
 public class ReactHandler {
 
@@ -68,6 +69,7 @@ public class ReactHandler {
 	private static String handleActionSave(BufferedReader reader) throws IOException {
 		JsonObject responseObject = new JsonObject();
 		DOECodeMetadata md = DOECodeMetadata.parseJson(reader);
+		System.out.println("md is" + md);
 		
 		responseObject.add("metadata",md.getJson());
 		

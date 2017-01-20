@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 
 import gov.osti.handlers.ReactHandler;
+import gov.osti.util.ServletUtil;
 
 
 public class ServiceRouter extends HttpServlet {
@@ -30,7 +31,6 @@ public class ServiceRouter extends HttpServlet {
 
 		//String service = StringUtils.substringAfterLast(request.getRequestURI(), "/");
 		PrintWriter writer = response.getWriter();
-		
 		response.setContentType("application/javascript;charset=UTF-8");
 		writer.write(ReactHandler.handleRequest(request));
 
