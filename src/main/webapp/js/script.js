@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -16,53 +16,72 @@ var AgentsModal = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (AgentsModal.__proto__ || Object.getPrototypeOf(AgentsModal)).call(this, props));
 
-    _this.state = { showModal: false };
+    _this.state = { showModal: false, first_name: '',
+      middle_name: '',
+      last_name: '',
+      email: '' };
     _this.open = _this.open.bind(_this);
     _this.close = _this.close.bind(_this);
     return _this;
   }
 
   _createClass(AgentsModal, [{
-    key: "close",
+    key: 'close',
     value: function close() {
-      this.setState({ showModal: false });
+      var newState = this.state;
+      newState.showModal = false;
+      this.setState(newState);
     }
   }, {
-    key: "open",
+    key: 'open',
     value: function open() {
-      this.setState({ showModal: true });
+      var newState = this.state;
+      newState.showModal = true;
+      this.setState(newState);
     }
   }, {
-    key: "render",
+    key: 'render',
     value: function render() {
+      console.log(this.state);
       return React.createElement(
-        "div",
-        null,
+        'div',
+        { className: 'form-group form-group-sm' },
         React.createElement(
           ReactBootstrap.Button,
           {
-            bsStyle: "primary",
-            bsSize: "large",
+            bsStyle: 'primary',
+            bsSize: 'small',
             onClick: this.open
           },
-          "Add Developer"
+          'Add Developer'
         ),
         React.createElement(
           ReactBootstrap.Modal,
-          { show: this.state.showModal, onHide: this.close },
+          { show: this.state.showModal, onHide: this.close, bsSize: 'large' },
           React.createElement(
             ReactBootstrap.Modal.Header,
             { closeButton: true },
             React.createElement(
               ReactBootstrap.Modal.Title,
               null,
-              "Manage Developer"
+              'Manage Developer'
             )
           ),
           React.createElement(
             ReactBootstrap.Modal.Body,
             null,
-            "Hello World!"
+            React.createElement(
+              'div',
+              { className: 'container-fluid' },
+              React.createElement(
+                'div',
+                { className: 'form-horizontal' },
+                React.createElement(Field, { field: 'first_name', label: 'First Name', type: 'textarea', value: this.state.first_name, onChange: this.onStateChange }),
+                React.createElement(Field, { field: 'middle_name', label: 'Middle Name', type: 'textarea', value: this.state.middle_name, onChange: this.onStateChange }),
+                React.createElement(Field, { field: 'first_title', label: 'Last Name', type: 'textarea', value: this.state.last_name, onChange: this.onStateChange }),
+                React.createElement(Field, { field: 'email', label: 'Email', type: 'textarea', value: this.state.email, onChange: this.onStateChange })
+              )
+            )
           ),
           React.createElement(
             ReactBootstrap.Modal.Footer,
@@ -70,7 +89,7 @@ var AgentsModal = function (_React$Component) {
             React.createElement(
               ReactBootstrap.Button,
               { onClick: this.close },
-              "Close"
+              'Close'
             )
           )
         )
@@ -91,23 +110,23 @@ var AgentsTable = function (_React$Component2) {
   }
 
   _createClass(AgentsTable, [{
-    key: "componentWillReceiveProps",
+    key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
       this.props.value = nextProps.value;
     }
   }, {
-    key: "render",
+    key: 'render',
     value: function render() {
       return React.createElement(
-        "div",
-        { className: "form-group form-group-sm" },
+        'div',
+        { className: 'form-group form-group-sm' },
         React.createElement(
-          "div",
-          { className: "col-sm-offset-2 col-sm-8" },
+          'div',
+          { className: 'col-sm-offset-2 col-sm-8' },
           React.createElement(
-            "h2",
+            'h2',
             null,
-            "Developers"
+            'Developers'
           ),
           React.createElement(Griddle, { results: this.props.value })
         )
@@ -132,30 +151,30 @@ var Field = function (_React$Component3) {
   }
 
   _createClass(Field, [{
-    key: "handleChange",
+    key: 'handleChange',
     value: function handleChange(event) {
       this.props.onChange(this.props.field, event.target.value);
     }
   }, {
-    key: "componentWillReceiveProps",
+    key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
       this.props.value = nextProps.value;
     }
   }, {
-    key: "render",
+    key: 'render',
     value: function render() {
       return React.createElement(
-        "div",
-        { className: "form-group form-group-sm" },
+        'div',
+        { className: 'form-group form-group-sm row' },
         React.createElement(
-          "label",
-          { className: "col-xs-2 control-label" },
+          'label',
+          { className: 'col-xs-2 control-label' },
           this.props.label
         ),
         React.createElement(
-          "div",
-          { className: "col-xs-2" },
-          React.createElement("input", { name: this.props.field, id: this.props.field, className: "form-control", type: this.props.type, value: this.props.value, onChange: this.handleChange })
+          'div',
+          { className: 'col-xs-4' },
+          React.createElement('input', { name: this.props.field, id: this.props.field, className: 'form-control', type: this.props.type, value: this.props.value, onChange: this.handleChange })
         )
       );
     }
@@ -181,54 +200,54 @@ var NameForm = function (_React$Component4) {
   }
 
   _createClass(NameForm, [{
-    key: "componentDidMount",
+    key: 'componentDidMount',
     value: function componentDidMount() {
       doAjax('GET', 'services?action=load', this.parseLoadResponse);
     }
   }, {
-    key: "parseLoadResponse",
+    key: 'parseLoadResponse',
     value: function parseLoadResponse(responseData) {
       this.setState({
         metadata: responseData.metadata
       });
     }
   }, {
-    key: "onStateChange",
+    key: 'onStateChange',
     value: function onStateChange(id, value) {
       var newState = this.state;
       newState.metadata[id] = value;
       this.setState(newState);
     }
   }, {
-    key: "handleSubmit",
+    key: 'handleSubmit',
     value: function handleSubmit(event) {
       console.log(this.state.metadata);
       event.preventDefault();
     }
   }, {
-    key: "render",
+    key: 'render',
     value: function render() {
       console.log(this.state.developers);
 
       return React.createElement(
-        "div",
-        { className: "container-fluid" },
+        'div',
+        { className: 'container-fluid' },
         React.createElement(
-          "form",
-          { id: "react_form", className: "form-horizontal", onSubmit: this.handleSubmit },
-          React.createElement(Field, { field: "software_title", label: "Software Title", type: "textarea", value: this.state.metadata.software_title, onChange: this.onStateChange }),
+          'form',
+          { id: 'react_form', className: 'form-horizontal', onSubmit: this.handleSubmit },
+          React.createElement(Field, { field: 'software_title', label: 'Software Title', type: 'textarea', value: this.state.metadata.software_title, onChange: this.onStateChange }),
           React.createElement(AgentsTable, { value: this.state.metadata.developers }),
           React.createElement(AgentsModal, null),
           React.createElement(
-            "div",
-            { className: "form-group form-group-sm" },
+            'div',
+            { className: 'form-group form-group-sm' },
             React.createElement(
-              "div",
-              { className: "col-xs-offset-2" },
+              'div',
+              { className: 'col-xs-offset-2' },
               React.createElement(
-                "button",
-                { className: "btn btn-primary", type: "submit" },
-                "Submit"
+                'button',
+                { className: 'btn btn-primary', type: 'submit' },
+                'Submit'
               )
             )
           )

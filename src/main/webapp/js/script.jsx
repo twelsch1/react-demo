@@ -2,37 +2,53 @@
 class AgentsModal extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {showModal: false}
+    this.state = {showModal: false, first_name:'',
+      middle_name: '',
+    last_name: '',
+  email:''};
     this.open = this.open.bind(this);
-    this.close = this.close.bind(this);  
+    this.close = this.close.bind(this);
   }
 
   close() {
-    this.setState({ showModal: false });
+    var newState = this.state;
+    newState.showModal=false;
+    this.setState(newState);
   }
 
   open() {
-    this.setState({ showModal: true });
+    var newState = this.state;
+    newState.showModal=true;
+    this.setState(newState);
+
   }
 
   render() {
+    console.log(this.state);
     return (
-      <div>
+      <div className="form-group form-group-sm">
 
         <ReactBootstrap.Button
           bsStyle="primary"
-          bsSize="large"
+          bsSize="small"
           onClick={this.open}
         >
         Add Developer
         </ReactBootstrap.Button>
 
-        <ReactBootstrap.Modal show={this.state.showModal} onHide={this.close}>
+        <ReactBootstrap.Modal show={this.state.showModal} onHide={this.close} bsSize="large">
           <ReactBootstrap.Modal.Header closeButton>
             <ReactBootstrap.Modal.Title>Manage Developer</ReactBootstrap.Modal.Title>
           </ReactBootstrap.Modal.Header>
           <ReactBootstrap.Modal.Body>
-           Hello World!
+           <div className="container-fluid">
+             <div className="form-horizontal">
+           <Field field="first_name" label="First Name" type="textarea" value={this.state.first_name} onChange={this.onStateChange}/>
+           <Field field="middle_name" label="Middle Name" type="textarea" value={this.state.middle_name} onChange={this.onStateChange}/>
+           <Field field="first_title" label="Last Name" type="textarea" value={this.state.last_name} onChange={this.onStateChange}/>
+           <Field field="email" label="Email" type="textarea" value={this.state.email} onChange={this.onStateChange}/>
+            </div>
+         </div>
           </ReactBootstrap.Modal.Body>
           <ReactBootstrap.Modal.Footer>
             <ReactBootstrap.Button onClick={this.close}>Close</ReactBootstrap.Button>
@@ -84,11 +100,11 @@ componentWillReceiveProps(nextProps) {
 
   render() {
 	  return(
-      <div className="form-group form-group-sm">
+      <div className="form-group form-group-sm row">
       <label className="col-xs-2 control-label">
         {this.props.label}
       </label>
-      <div className="col-xs-2">
+      <div className="col-xs-4">
         <input name={this.props.field} id={this.props.field} className="form-control" type={this.props.type} value={this.props.value} onChange={this.handleChange} />
       </div>
     </div>);
